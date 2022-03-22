@@ -35,32 +35,41 @@
 
                 <!-- Titre de la modale -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Please subscribe</h5>
+                    <h5 class="modal-title">Inscrivez-vous</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
 
                 <!-- Corps de la modale -->
-                <form>
+                <form method="POST" action="index.php">
+
+                    <?php
+                        if(isset($_GET['success'])) {
+                            echo '<p class="alert success">Inscription réalisée avec succès.</p>';
+                        } else if(isset($_GET['error']) && !empty($_GET['message'])) {
+                            echo '<p class="alert error">'.htmlspecialchars($_GET['message']).'</p>';
+                        } 
+                    ?>
+
                     <div class="form-floating m-2">
-                        <input type="name" class="form-control" id="floatingInput" placeholder="Name">
-                        <label for="floatingInput">Name</label>
+                        <input type="name" class="form-control" id="name" placeholder="Michel Dupont">
+                        <label for="name">Nom</label>
                     </div>
                     <div class="form-floating m-2">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="dupont@email.com">
+                        <label for="email">Email</label>
                     </div>
                     <div class="form-floating m-2">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Mot de passe">
+                        <label for="password">Mot de passe</label>
                     </div>
 
                     <div class="checkbox my-4">
                         <label>
-                        <input type="checkbox" value="remember-me"> Remember me
+                        <input type="checkbox" value="remember-me"> Se souvenir de moi
                         </label>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Inscription</button>
                 </form>
 
             </div>
@@ -77,28 +86,37 @@
 
                 <!-- Titre de la modale -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Please sign in</h5>
+                    <h5 class="modal-title">Connectez-vous</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
 
                 <!-- Corps de la modale -->
-                <form>
+                <form method="POST" action="index.php">
+
+                    <?php
+                        if(isset($_GET['success'])) {
+                            echo '<p class="alert success">Inscription réalisée avec succès.</p>';
+                        } else if(isset($_GET['error']) && !empty($_GET['message'])) {
+                            echo '<p class="alert error">'.htmlspecialchars($_GET['message']).'</p>';
+                        } 
+                    ?>
+
                     <div class="form-floating m-2">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="dupont@email.com">
+                        <label for="email">Email</label>
                     </div>
                     <div class="form-floating m-2">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Mot de passe">
+                        <label for="password">Mot de passe</label>
                     </div>
 
                     <div class="checkbox my-4">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
+                        <label>
+                            <input type="checkbox" value="remember-me"> Se souvenir de moi
+                        </label>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Connexion</button>
                 </form>
 
             </div>
