@@ -18,63 +18,44 @@
 
         <!-- Hero -->
 
-  <div class="px-4 pt-5 my-5 text-center">
-    <h1 class="display-4 fw-bold text-primary">Centered screenshot</h1>
-    <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-      </div>
-    </div>
-    <div class="overflow-hidden" style="max-height: 30vh;">
-    </div>
-  </div>
-
-
-        <!-- Articles -->
-
-
-
-<div class="container">
-    <hr class="featurette-divider text-primary">
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading pt-4">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
-                <button type="button" class="btn btn-primary btn-lg px-2 me-sm-3">Lire l'article</button>
+        <div class="px-4 pt-5 my-5 text-center">
+            <h1 class="display-4 fw-bold text-primary">Centered screenshot</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
             </div>
-            <div class="col-md-5">
-                <img src="https://picsum.photos/500" alt="">
+            </div>
+            <div class="overflow-hidden" style="max-height: 30vh;">
             </div>
         </div>
 
-    <hr class="featurette-divider text-primary">
 
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading pt-4">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
-                <button type="button" class="btn btn-primary btn-lg px-2 me-sm-3">Lire l'article</button>
-            </div>
-            <div class="col-md-5 order-md-1">
-                <img src="https://picsum.photos/500" alt="">
-            </div>
-        </div>
-
-    <hr class="featurette-divider text-primary">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading pt-4">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
-                <button type="button" class="btn btn-primary btn-lg px-2 me-sm-3">Lire l'article</button>
-            </div>
-            <div class="col-md-5">
-                <img src="https://picsum.photos/500" alt="">
+        <div class="container my-5">
+            <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+                    <h1 class="display-4 fw-bold lh-1">L'actualité en temps réél, n'importe quand, n'importe où</h1>
+                    <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" data-bs-toggle="modal" data-bs-target="#subscription">S'inscrire</button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
+                        </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+                    <img class="rounded-lg-3" src="public/assets/caption.png" alt="" width="500">
+                </div>
             </div>
         </div>
 
-    <hr class="featurette-divider text-primary">
-</div>
+        <div class="bg-secondary text-primary px-4 py-5 text-center">
+            <div class="py-5">
+                <h1 class="display-5 fw-bold text-white">Dark mode hero</h1>
+                <div class="col-lg-6 mx-auto">
+                    <p class="fs-5 mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        </div>
+                </div>
+            </div>
+        </div>
   
         <!-- Footer -->
 
