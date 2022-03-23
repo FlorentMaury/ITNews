@@ -1,19 +1,61 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="public/design/style.css">
-    <title>ITNEws | L'information technologique</title>
-</head>
-<body>
-    
+<?php
+    session_start();
+
+    if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordTwo'])) {
+
+        // Connexion à la bdd
+        require_once('src/connection.php');
+
+        // Variables
+        $email       = htmlspecialchars($_POST['email']);
+        $password    = htmlspecialchars($_POST['password']);
+        $passwordTwo = htmlspecialchars($_POST['passwordTwo']);
+
+        if($password != $passwordTwo) {
+            header('location: index.php?error=1&message=Vos mots de passe ne sont pas identiques.');
+            exit();
+        }
+
+        // L'adresse email est-elle correcte ?
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            header('location: index.php?error=1&Votre adresse email est invalide.');
+            exit();
+        }
+
+        // L'adresse email est-elle en doublon ?
+        $req = $bdd->prepare('SELECT COUNT(*) as numberEmail FROM user WHERE email = ?');
+        $req->execute([$email]);
+
+        while($emailVerification = $req->fetch()) {
+            if($emailVerification['numberEmail'] != 0) {
+                header('location: index.php?error=1&message=Votre adresse email est déjà utilisée.');
+                exit();
+            }
+        }
+
+        // Chiffrement du mot de passe
+        $password = "aq1".sha1($password ."123")."25";
+
+        // Secret
+        $secret = sha1($email).time();
+        $secret = sha1($secret).time();
+
+        // Ajouter un utilisateur
+        $req = $bdd->prepare('INSERT INTO user(email, password, secret) VALUES(?, ?, ?)');
+        $req->execute([$email, $password, $secret]);
+
+        header('location: index.php?success=1');
+        exit();
+    }
+
+?>
+  
+  
+  
         <!-- Header -->
 
     <?php
-        require_once('header.php');
+        require_once('src/header.php');
     ?>
 
         <!-- Boîte de présentation 1 -->
@@ -39,7 +81,7 @@
                 <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réél, n'importe quand, n'importe où</h1>
                 <p class="lead mb-5">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" data-bs-toggle="modal" data-bs-target="#subscription">S'inscrire</button>
+                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#subscription">S'inscrire</button>
                         <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
                     </div>
             </div>
@@ -67,5 +109,5 @@
         <!-- Footer -->
 
     <?php
-        require_once('footer.php');
+        require_once('src/footer.php');
     ?>
