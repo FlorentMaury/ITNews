@@ -31,58 +31,12 @@
 
                 <!-- Inscriptions et lancement des modales -->
                 <div class="text-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subscription">S'inscrire</button>
+                    <button type="button" class="btn btn-primary"><a class="text-decoration-none text-secondary" href="/subscription.php">S'inscrire</a></button>
                     <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
                 </div>
             </nav>
         </div>
     </header>
-
-
-    <!-- Modale d'inscription -->
-
-    <div class="modal fade" id="subscription" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-3 mt-0">
-
-                <!-- Titre de la modale -->
-                <div class="modal-header">
-                    <h5 class="modal-title">Inscrivez-vous</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal">
-                    </button>
-                </div>
-
-                <!-- Corps de la modale -->
-                <form method="POST" action="index.php">
-
-                    <p class="form-floating m-2">
-                        <input type="name" name="name" class="form-control" id="name" placeholder="Michel Dupont">
-                        <label for="name">Nom</label>
-                    </p>
-                    <p class="form-floating m-2">
-                        <input type="email" name="email" class="form-control" id="email" placeholder="dupont@email.com">
-                        <label for="email">Email</label>
-                    </p>
-                    <p class="form-floating m-2">
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Mot de passe">
-                        <label for="password">Mot de passe</label>
-                    </p>
-                    <p class="form-floating m-2">
-                        <input type="password" name="passwordTwo" class="form-control" id="passwordTwo" placeholder="Mot de passe">
-                        <label for="password">Confirmez mot de passe</label>
-                    </p>
-
-                    <p class="checkbox my-4">
-                        <label>
-                        <input type="checkbox" value="remember-me"> Se souvenir de moi
-                        </label>
-                    </p>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Inscription</button>
-                </form>
-
-            </div>
-        </div>
-    </div>
 
 
         <!-- Modale de connexion -->
@@ -102,20 +56,27 @@
                 <!-- Corps de la modale -->
                 <form method="POST" action="index.php">
 
-                    <div class="form-floating m-2">
+                <?php if(isset($_GET['success'])) {
+                    echo '<p class="alert success">Inscription réalisée avec succès.</p>';
+                }
+                else if(isset($_GET['error']) && !empty($_GET['message'])) {
+                    echo '<p class="alert error">'.htmlspecialchars($_GET['message']).'</p>';
+                } ?>
+
+                    <p class="form-floating m-2">
                         <input type="email" name="email" class="form-control" id="email" placeholder="dupont@email.com">
                         <label for="email">Email</label>
-                    </div>
-                    <div class="form-floating m-2">
+                    </p>
+                    <p class="form-floating m-2">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Mot de passe">
                         <label for="password">Mot de passe</label>
-                    </div>
+                    </p>
 
-                    <div class="checkbox my-4">
+                    <p class="checkbox my-4">
                         <label>
                             <input type="checkbox" value="remember-me"> Se souvenir de moi
                         </label>
-                    </div>
+                    </p>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Connexion</button>
                 </form>
             </div>
