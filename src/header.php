@@ -57,10 +57,10 @@
                 <form method="POST" action="index.php">
 
                 <?php if(isset($_GET['success'])) {
-                    echo '<p class="alert success">Inscription réalisée avec succès.</p>';
+                    echo '<p>Inscription réalisée avec succès.</p>';
                 }
                 else if(isset($_GET['error']) && !empty($_GET['message'])) {
-                    echo '<p class="alert error">'.htmlspecialchars($_GET['message']).'</p>';
+                    echo '<p class="alert">'.htmlspecialchars($_GET['message']).'</p>';
                 } ?>
 
                     <p class="form-floating m-2">
@@ -74,7 +74,7 @@
 
                     <p class="checkbox my-4">
                         <label>
-                            <input type="checkbox" value="remember-me"> Se souvenir de moi
+                            <input type="checkbox" name="auto" value="remember-me"> Se souvenir de moi
                         </label>
                     </p>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Connexion</button>

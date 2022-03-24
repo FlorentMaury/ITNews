@@ -1,58 +1,59 @@
 <?php
 
-    session_start();
+	session_start();
 
-    if(!empty($_POST['email']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordTwo'])) {
+	if(!empty($_POST['email']) && !empty($_POST['password'])) {
+		// Connexion à la base de donnée
+		require_once('src/connection.php');
 
-        // Connexion à la bdd
-        require_once('src/connection.php');
+		// Variables
+		$email     = htmlspecialchars($_POST['email']);
+		$password  = htmlspecialchars($_POST['password']);
 
-        // Variables
-        $name        = htmlspecialchars($_POST['name']);
-        $email       = htmlspecialchars($_POST['email']);
-        $password    = htmlspecialchars($_POST['password']);
-        $passwordTwo = htmlspecialchars($_POST['passwordTwo']);
+		// L'adresse email est-elle correcte ?
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			header('location: index.php?error=1&Votre adresse email est invalide.');
+			exit();
+		}
 
-        if($password != $passwordTwo) {
-            header('location: index.php?error=1&message=Vos mots de passe ne sont pas identiques.');
-            exit();
-        }
+		// Chiffrement du mot de passe
+		$password = "aq1".sha1($password ."123")."25";
 
-        // L'adresse email est-elle correcte ?
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            header('location: index.php?error=1&Votre adresse email est invalide.');
-            exit();
-        }
+		// L'adresse email est-elle bien utilisée ?
+		$req = $bdd->prepare('SELECT COUNT(*) as numberEmail FROM user WHERE email = ?');
+		$req->execute([$email]);
 
-        // L'adresse email est-elle en doublon ?
-        $req = $bdd->prepare('SELECT COUNT(*) as numberEmail FROM user WHERE email = ?');
-        $req->execute([$email]);
+		while($emailVerification = $req->fetch()) {
+			if($emailVerification['numberEmail'] != 1) {
+				header('location: index.php?error=1&message=Impossible de vous authentifier correctement.');
+				exit();
+			}
+		}
 
-        while($emailVerification = $req->fetch()) {
-            if($emailVerification['numberEmail'] != 0) {
-                header('location: index.php?error=1&message=Votre adresse email est déjà utilisée.');
-                exit();
-            }
-        }
+		// Connexion
+		$req = $bdd->prepare('SELECT * FROM user WHERE email = ?');
+		$req->execute([$email]);
 
-        // Chiffrement du mot de passe
-        $password = "aq1".sha1($password ."123")."25";
+		while($user = $req->fetch()) {
+			if($password == $user['password']) {
+				$_SESSION['connect'] = 1;
+				$_SESSION['email'] = $user['email'];
 
-        // Secret
-        $secret = sha1($email).time();
-        $secret = sha1($secret).time();
+				// Connexion auto par cookie
+				if(isset($_POST['auto'])) {
+					setcookie('auth', $user['secret'], time() + 365*24*3600, '/', null, false, true);
+				} 
 
-        // Ajouter un utilisateur
-        $req = $bdd->prepare('INSERT INTO user(name, email, password, secret) VALUES(?, ?, ?, ?)');
-        $req->execute([$name, $email, $password, $secret]);
-
-        header('location: index.php?success=1');
-        exit();
-    }
+				header('location: index.php?success=1');
+				exit();
+			} else {
+				header('location: index.php?error=1&message=Impossible de vous authentifier correctement.');
+				exit();
+			}
+		}
+	}
 
 ?>
-  
-  
   
         <!-- Header -->
 
@@ -63,7 +64,18 @@
         <!-- Boîte de présentation 1 -->
 
     <div class="px-4 pt-5 my-5 text-center">
-        <h1 class="display-4 fw-bold text-primary">Centered screenshot</h1>
+        <h1 class="display-4 fw-bold text-primary">
+            Bienvenue
+            <?php
+            	if(isset($_SESSION['connect'])) {
+                    require_once('src/connection.php');
+                    $reponse = $bdd->query('SELECT * FROM user');
+                    while($utilisateur = $reponse->fetch()) {
+                        echo $utilisateur['name'];
+                    }
+                }
+            ?>
+        </h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
