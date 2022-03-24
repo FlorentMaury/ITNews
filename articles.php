@@ -19,15 +19,34 @@
             <div class="col"> 
                 <div class="card shadow-sm">
                     <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
+
                     <div class="card-body">
                         <p class="card-text"><?= $x['subtitle'] ?></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#read">Lire</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment">Commenter</button>
                             </div>
-                            <small class="text-muted"><?= $x['article_date'] ?></small>
+                            <small class="text-muted pl-3"><?= $x['article_date'] ?></small>
                         </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-primary" href="/articleCreation.php" type="submit">
+                            <a href="/articleCreation.php?edit=<?= $x['id'] ?>" class="text-decoration-none text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wrench-adjustable" viewBox="0 0 16 16">
+                                <path d="M16 4.5a4.492 4.492 0 0 1-1.703 3.526L13 5l2.959-1.11c.027.2.041.403.041.61Z"/>
+                                <path d="M11.5 9c.653 0 1.273-.139 1.833-.39L12 5.5 11 3l3.826-1.53A4.5 4.5 0 0 0 7.29 6.092l-6.116 5.096a2.583 2.583 0 1 0 3.638 3.638L9.908 8.71A4.49 4.49 0 0 0 11.5 9Zm-1.292-4.361-.596.893.809-.27a.25.25 0 0 1 .287.377l-.596.893.809-.27.158.475-1.5.5a.25.25 0 0 1-.287-.376l.596-.893-.809.27a.25.25 0 0 1-.287-.377l.596-.893-.809.27-.158-.475 1.5-.5a.25.25 0 0 1 .287.376ZM3 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            </a>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" href="/articleCreation.php" type="submit">
+                            <a href="#" class="text-decoration-none text-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                            </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -35,8 +54,8 @@
 </div>
 
 <div class="container">
-    <button class="w-25 btn btn-lg btn-primary my-4" href="/articleCreation.php" type="submit">
-        <a href="/articleCreation.php" class="text-decoration-none text-secondary">Ajouter un article</a>
+    <button class="btn btn-lg btn-primary my-4" href="/articleCreation.php" type="submit">
+        <a href="/articleCreation.php" class="text-decoration-none text-secondary">Ajouter</a>
     </button>
 </div>
 
@@ -44,7 +63,7 @@
 
     <!-- Modales -->
 
-<div class="modal fade" id="lire" data-bs-backdrop="static">
+<div class="modal fade" id="read" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -70,8 +89,7 @@
 </div> 
 
 
-
-<div class="modal fade" id="commenter" data-bs-backdrop="static">
+<div class="modal fade" id="comment" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 

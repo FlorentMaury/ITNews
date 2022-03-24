@@ -4,6 +4,14 @@
 
     require_once('src/connection.php');
 
+    if(isset($_GET['edit']) AND !empty($_GET['edit'])) {
+        $edition_id = htmlspecialchars($_GET['edit']);
+        $edition   = $bdd->prepare('SELECT * FROM article WHERE id = ?');
+        $edition->execute(array($edition_id));
+
+        $edition = $edition->fetch();
+    }
+
     if(isset($_POST['title']) && isset($_POST['subtitle']) && isset($_POST['content'])) {
         if(!empty($_POST['title']) AND !empty($_POST['subtitle']) AND !empty($_POST['content'])) {
 
@@ -28,7 +36,7 @@
         <!-- Formulaire de contact -->
 
     <div class="px-4 pt-5 my-5 text-center">
-        <h1 class="display-4 fw-bold text-primary">Nouvel article</h1>
+        <h1 class="display-4 fw-bold text-primary">Gestion des articles</h1>
         <div class="col-lg-6 mx-auto my-1 p-3">
 
         <form method="POST">
@@ -41,7 +49,7 @@
             } ?>
 
                 <p class="form-floating m-2">
-                    <input type="text" name="title" class="form-control" id="title" placeholder="Titre de l'article">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Titre de l'article" value=<?= $edition['titre'] ?>>
                     <label for="title">Titre de l'article</label>
                 </p>
                 <p class="form-floating m-2">
