@@ -2,13 +2,12 @@
 
     session_start();
 
-?>
+    require_once('src/connection.php');
 
+    $articles = $bdd->query('SELECT * FROM article ORDER BY article_date DESC');
 
-    <!-- Header -->
-
-<?php
     require_once('src/header.php');
+
 ?>
 
 
@@ -16,98 +15,29 @@
 
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-4">
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
+        <?php while($x = $articles->fetch()) { ?>
+            <div class="col"> 
+                <div class="card shadow-sm">
+                    <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
+                    <div class="card-body">
+                        <p class="card-text"><?= $x['subtitle'] ?></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
+                            </div>
+                            <small class="text-muted"><?= $x['article_date'] ?></small>
                         </div>
-                        <small class="text-muted">9 mins</small>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php } ?>
+</div>
 
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-                <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-                <div class="card-body">
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#lire">Lire</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#commenter">Commenter</button>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <button class="w-25 btn btn-lg btn-primary my-4" href="/articleCreation.php" type="submit">
+        <a href="/articleCreation.php" class="text-decoration-none text-secondary">Ajouter un article</a>
+    </button>
 </div>
 
 
@@ -147,7 +77,7 @@
 
             <!-- Titre de la modale -->
             <div class="modal-header text-primary mb-2">
-                <h5 class="modal-title">Titre de l'article</h5>
+                <h5 class="modal-title">Espace commentaires</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -160,11 +90,11 @@
                 </div>
             </p>
             <p>
-                <label for="messsage" class="form-label mb-4">Votre message :</label>
+                <label for="messsage" class="form-label mb-4">Votre commentaire :</label>
                 <textarea class="form-control" id="messsage" rows="5" placeholder="Hello World !"></textarea>
             </p>
             <p>
-                <button type="submit" class="btn btn-primary my-3">Envoyer</button>
+                <button type="submit" class="btn btn-primary my-3">Poster</button>
             </p>
         </form>
 

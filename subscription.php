@@ -2,7 +2,7 @@
 
     session_start();
 
-    if(!empty($_POST['email']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordTwo'])) {
+    if(!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordTwo'])) {
 
         // Connexion à la bdd
         require_once('src/connection.php');
@@ -48,7 +48,8 @@
 
         header('location: subscription.php?success=1');
         exit();
-    }
+
+     }
         
     require_once('src/header.php');
     
