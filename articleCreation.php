@@ -4,7 +4,10 @@
 
     require_once('src/connection.php');
 
+    $editing = 0;
+
     if(isset($_GET['edit']) AND !empty($_GET['edit'])) {
+        $editing = 1;
         $edition_id = htmlspecialchars($_GET['edit']);
         $edition   = $bdd->prepare('SELECT * FROM article WHERE id = ?');
         $edition->execute(array($edition_id));
@@ -19,10 +22,16 @@
             $subtitle = htmlspecialchars($_POST['subtitle']);
             $content  = htmlspecialchars($_POST['content']);
 
-            $send = $bdd->prepare('INSERT INTO article (title, subtitle, content, article_date) VALUES (?, ?, ?, NOW())');
-            $send->execute(array($title, $subtitle, $content));
-
-            $message = "Article posté !";
+            if($editing == 0) {
+                
+                $send = $bdd->prepare('INSERT INTO article (title, subtitle, content, article_date) VALUES (?, ?, ?, NOW())');
+                $send->execute(array($title, $subtitle, $content));
+                $message = "Article posté !";
+            } else {
+                $update = $bdd->prepare('UPDATE article SET title = ?, subtitle = ?, content = ?, date_edition =now() WHERE id = ?');
+                $update->execute(array($title, $subtitle, $content, $edition_id));
+                $message = "Article modifié !";
+            }
 
         } else {
             $message = "Tout les champs doivent être remplis.";
@@ -39,7 +48,7 @@
         <h1 class="display-4 fw-bold text-primary">Gestion des articles</h1>
         <div class="col-lg-6 mx-auto my-1 p-3">
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <?php if(isset($_GET['success'])) {
                 echo '<p>Inscription réalisée avec succès.</p>';
@@ -49,24 +58,23 @@
             } ?>
 
                 <p class="form-floating m-2">
-                    <input type="text" name="title" class="form-control" id="title" placeholder="Titre de l'article" value=<?= $edition['titre'] ?>>
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Titre de l'article" <?php if($editing == 1) { ?> value="<?= $edition['title'] ?>"<?php } ?>>
                     <label for="title">Titre de l'article</label>
                 </p>
                 <p class="form-floating m-2">
-                    <textarea name="subtitle" class="form-control" rows="5" id="subtitle" placeholder="Sous-titre de l'article"></textarea>
-                    <label for="subtitle">Sous-titre de l'article</label>
+                    <textarea name="subtitle" class="form-control" rows="5" id="subtitle" placeholder="Sous-titre de l'article"><?php if($editing == 1) { ?><?= $edition['subtitle'] ?><?php } ?></textarea>
+                    <label for="content">Sous-titre de l'article</label>
                 </p>
                 <p class="form-floating m-2">
-                    <textarea type="text" name="content" class="form-control" id="content" placeholder="Contenu de l'article"></textarea>
+                    <textarea type="text" name="content" class="form-control" id="content" placeholder="Contenu de l'article"><?php if($editing == 1) { ?><?= $edition['content'] ?><?php } ?></textarea>
                     <label for="content">Contenu de l'article</label>
+                </p>
+                <p class="mx-5 my-2">
+                    <label for="image" class="form-label">Illustration de l'article</label>
+                    <input class="form-control" type="file" id="image">
                 </p>
                 <button class="w-50 btn btn-lg btn-primary mt-5" type="submit">Poster</button>
             </form>
-            <?php
-                if(isset($message)) {
-                    echo $message;
-                }
-            ?>
     </div>
         
   
