@@ -5,6 +5,7 @@
     require_once('src/connection.php');
 
     $articles = $bdd->query('SELECT * FROM article ORDER BY article_date DESC');
+    $content = $bdd->query('SELECT * FROM article ORDER BY id DESC');
 
     require_once('src/header.php');
 
@@ -19,12 +20,11 @@
             <div class="col"> 
                 <div class="card shadow-sm">
                     <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
-
                     <div class="card-body">
                         <p class="card-text"><?= $x['subtitle'] ?></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#read">Lire</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#read<?= $x['id'] ?>">Lire</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment">Commenter</button>
                             </div>
                             <small class="text-muted pl-3"><?= $x['article_date'] ?></small>
@@ -62,31 +62,31 @@
 
 
     <!-- Modales -->
+    
+<?php while($y = $content->fetch()) { ?>
+    <div class="modal fade" id="read<?= $y['id'] ?>" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-<div class="modal fade" id="read" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+                <!-- Titre de la modale -->
+                <div class="modal-header text-primary">
+                    <h5 class="modal-title"><?= $y['title'] ?></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-            <!-- Titre de la modale -->
-            <div class="modal-header text-primary">
-                <h5 class="modal-title">Titre de l'article</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+                <!-- Corps de la modale -->
+                <div class="modal-body">
+                    <p class="m-4"><?= $y['content'] ?></p>
+                </div>
 
-            <!-- Corps de la modale -->
-            <div class="modal-body">
-                <p class="m-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis porta est nec laoreet. Aliquam erat volutpat. Praesent et hendrerit felis. Donec molestie augue at felis lacinia, et consectetur mauris tristique. Morbi placerat ultrices orci, sit amet ultrices odio facilisis eget. Vestibulum egestas, leo in varius fringilla, nisi risus consectetur neque, at blandit odio lacus non neque. Donec a tortor dolor. Pellentesque diam dolor, pharetra vel arcu ac, vestibulum dictum neque. </p>
-                <p class="m-4">Mauris sagittis felis et odio posuere sagittis. Maecenas libero libero, convallis semper accumsan a, consectetur nec ex. Aenean aliquet sodales laoreet. Nam diam elit, pulvinar eget risus eu, vestibulum pretium elit. Nunc dui ipsum, fringilla et nisl id, vehicula vehicula nisl. Nam ut leo metus. Praesent pulvinar vitae quam eu pellentesque. Vivamus sagittis a neque et ornare. In eget fringilla est, in euismod nisi. Maecenas sagittis id quam vel finibus. Sed quis semper ligula. Sed blandit sem ut purus rhoncus, et iaculis justo laoreet. Vestibulum vestibulum mattis lobortis. Fusce rhoncus sapien feugiat urna mattis pretium. Vivamus tristique, ex aliquet gravida tristique, nisi massa ullamcorper erat, finibus varius ex tortor nec ligula. </p>
-                <p class="m-4">Suspendisse aliquam dapibus lectus vitae varius. Vivamus fringilla purus eu ex vestibulum, sit amet ullamcorper neque lacinia. Nunc varius dictum risus. Vestibulum ut imperdiet eros. Etiam quis imperdiet nisi, vel semper urna. Vestibulum ante dolor, malesuada et malesuada volutpat, interdum in nibh. Pellentesque posuere augue sed quam consequat rhoncus. Aliquam vitae semper est. Curabitur pretium ullamcorper augue, et porttitor justo finibus in. </p>
-            </div>
-
-            <!-- Pied-de-page de la modale -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fermer</button>
+                <!-- Pied-de-page de la modale -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fermer</button>
+                </div>
             </div>
         </div>
-    </div>
-</div> 
+    </div> 
+<?php } ?>
 
 
 <div class="modal fade" id="comment" data-bs-backdrop="static">
