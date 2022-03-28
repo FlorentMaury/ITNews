@@ -46,7 +46,7 @@
 
         while($emailVerification = $req->fetch()) {
             if($emailVerification['numberEmail'] != 0) {
-                header('location: subscription.php?error=1&message=Votre adresse email est déjà utilisée.');
+                header('location: subscription.php?error=1&message=Connexion impossible.');
                 exit();
             }
         }

@@ -69,10 +69,7 @@
             <?php
             	if(isset($_SESSION['connect'])) {
                     require_once('src/connection.php');
-                    $reponse = $bdd->query('SELECT * FROM user');
-                    while($utilisateur = $reponse->fetch()) {
-                        echo $utilisateur['name'];
-                    }
+                        echo $_SESSION['email'];
                 }
             ?>
         </h1>

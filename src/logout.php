@@ -5,5 +5,5 @@
     session_destroy(); // Détruire
 
     setcookie('auth', '', time() - 1);
-    header('location: ../index.php');
+    header('location: ../index.php?error=1&message=Vous êtes déconnecté !');
     exit();

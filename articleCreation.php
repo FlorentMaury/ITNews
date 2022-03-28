@@ -5,27 +5,7 @@
     require_once('src/connection.php');
 
     $editing = 0;
-
-    if(isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-
-        // L'image est trop lourde ?
-        if($_FILES['image']['size'] <= 3000000) {
     
-            $informationsImage = pathinfo($_FILES['image']['name']);
-            $extensionImage    = $informationsImage['extension'];
-            $extensionsArray   = ['png', 'gif', 'jpg', 'jpeg'];
-    
-            if(in_array($extensionImage, $extensionsArray)) {
-    
-                $newImageName = time().rand().rand().'.'.$extensionImage;
-                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/'.$newImageName);
-                $send = true;
-    
-            }
-    
-        }
-    
-    }
 
     if(isset($_GET['edit']) AND !empty($_GET['edit'])) {
         $editing = 1;
@@ -36,16 +16,32 @@
         $edition = $edition->fetch();
     }
 
-    if(isset($_POST['title']) && isset($_POST['subtitle']) && isset($_POST['content'])) {
-        if(!empty($_POST['title']) AND !empty($_POST['subtitle']) AND !empty($_POST['content'])) {
+    if(isset($_POST['title']) && isset($_POST['subtitle']) && isset($_POST['content']) && isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+        if(!empty($_POST['title']) AND !empty($_POST['subtitle']) AND !empty($_POST['content']) AND !empty($_FILES['image'])) {
 
             $title    = htmlspecialchars($_POST['title']);
             $subtitle = htmlspecialchars($_POST['subtitle']);
             $content  = htmlspecialchars($_POST['content']);
 
+            if($_FILES['image']['size'] <= 3000000) {
+    
+                $informationsImage = pathinfo($_FILES['image']['name']);
+                $extensionImage    = $informationsImage['extension'];
+                $extensionsArray   = ['png', 'gif', 'jpg', 'jpeg'];
+        
+                if(in_array($extensionImage, $extensionsArray)) {
+        
+                    $newImageName = time().rand().rand().'.'.$extensionImage;
+                    move_uploaded_file($_FILES['image']['tmp_name'], 'public/assets/illustrations/'.$newImageName);
+                    $send = true;
+        
+                }
+            } 
+
             if($editing == 0) {
                 $send = $bdd->prepare('INSERT INTO article (title, subtitle, content, article_date) VALUES (?, ?, ?, NOW())');
                 $send->execute(array($title, $subtitle, $content));
+                $send = true;
 
                 $message = "Article posté !";
             } else {
@@ -56,6 +52,7 @@
 
         } else {
             header('location: articleCreation.php?error=1&message=Tous les champs doivent être remplis.');
+            exit();
         }
     }
         
@@ -70,13 +67,6 @@
         <div class="col-lg-6 mx-auto my-1 p-3">
 
         <form method="POST" enctype="multipart/form-data">
-
-            <?php if(isset($_GET['success'])) {
-                echo '<p>Article en ligne !</p>';
-            }
-            else if(isset($_GET['error']) && !empty($_GET['message'])) {
-                echo '<p>'.htmlspecialchars($_GET['message']).'</p>';
-            } ?>
 
                 <p class="form-floating m-2">
                     <input type="text" name="title" class="form-control" id="title" placeholder="Titre de l'article" <?php if($editing == 1) { ?> value="<?= $edition['title'] ?>"<?php } ?>>
@@ -94,6 +84,12 @@
                     <label for="image" class="form-label">Illustration de l'article</label>
                     <input class="form-control" type="file" name="image" id="image">
                 </p>
+                    <?php if(isset($_GET['success'])) {
+                    echo '<p>Article en ligne !</p>';
+                }
+                else if(isset($_GET['error']) && !empty($_GET['message'])) {
+                    echo '<p>'.htmlspecialchars($_GET['message']).'</p>';
+                } ?>
                 <button class="w-50 btn btn-lg btn-primary mt-5" type="submit">Poster</button>
             </form>
     </div>
