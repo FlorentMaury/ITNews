@@ -30,10 +30,16 @@
                 </ul>
 
                 <!-- Inscriptions et lancement des modales -->
-                <div class="text-end">
-                    <button type="button" class="btn btn-primary"><a class="text-decoration-none text-secondary" href="/subscription.php">S'inscrire</a></button>
-                    <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
-                </div>
+                <?php if(!isset($_SESSION['connect'])) { ?>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-primary"><a class="text-decoration-none text-secondary" href="/subscription.php">S'inscrire</a></button>
+                        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
+                    </div>
+                <?php } else { ?>
+                    <button type="button" href="" class="btn btn-primary me-2">
+                    <a class="text-decoration-none text-white" href="/src/logout.php">Déconnexion</a>
+                    </button>
+                <?php } ?>
             </nav>
         </div>
     </header>

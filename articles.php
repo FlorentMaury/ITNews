@@ -7,6 +7,21 @@
     $articles = $bdd->query('SELECT * FROM article ORDER BY article_date DESC');
     $content = $bdd->query('SELECT * FROM article ORDER BY id DESC');
 
+    if(isset($_POST['sendComment'])) {
+        if(!empty($_POST['userComment'])) {
+            $comment = htmlspecialchars($_POST['userComment']);
+            $ins = $bdd->prepare('INSERT INTO comment (user_comment) VALUES (?)');
+            $ins->execute(array($comment));
+            header('location: articles.php?success=1');
+        } else {
+            header('location: articles.php?error=1&message=Remplir avant d\'envoyer.');
+            exit();
+        }
+    }
+
+    $showComments = $bdd->prepare('SELECT * FROM comment WHERE article_id = ?');
+    $showComments->execute(array(0));
+
     require_once('src/header.php');
 
 ?>
@@ -14,7 +29,14 @@
 
     <!-- Articles -->
 
+
 <div class="container">
+    <?php if(isset($_GET['success'])) {
+        echo '<p class="mt-4 font-weight-bold text-success">Message posté !</p>';
+    }
+    else if(isset($_GET['error']) && !empty($_GET['message'])) {
+        echo '<p mt-2 class="mt-4 fw-bold text-danger">'.htmlspecialchars($_GET['message']).'</p>';
+    } ?>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-4">
         <?php while($x = $articles->fetch()) { ?>
             <div class="col"> 
@@ -31,6 +53,7 @@
                         </div>
                     </div>
 
+                    <?php if(isset($_SESSION['connect'])) { ?>
                     <div class="card-footer d-flex justify-content-between">
                         <button class="btn btn-sm btn-primary" href="/articleCreation.php" type="submit">
                             <a href="/articleCreation.php?edit=<?= $x['id'] ?>" class="text-decoration-none text-secondary">
@@ -48,15 +71,18 @@
                             </a>
                         </button>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         <?php } ?>
 </div>
 
 <div class="container">
-    <button class="btn btn-lg btn-primary my-4" href="/articleCreation.php" type="submit">
-        <a href="/articleCreation.php" class="text-decoration-none text-secondary">Ajouter</a>
-    </button>
+    <?php if(isset($_SESSION['connect'])) { ?>
+        <button class="btn btn-lg btn-primary my-4" href="/articleCreation.php" type="submit">
+            <a href="/articleCreation.php" class="text-decoration-none text-secondary">Ajouter</a>
+        </button>
+    <?php } ?>
 </div>
 
 
@@ -100,21 +126,27 @@
             </div>
 
             <!-- Corps de la modale -->
-            <form class="mx-3">
-            <p>
-                <label for="title" class="form-label">Titre : </label>
-                <div class="input-group">
-                    <input type="text" name="title" id="title" class="form-control" placeholder="Titre de votre commentaire">
+            <?php
+            	if(isset($_SESSION['connect'])) { ?>
+                    <div class="modal-body">
+                    <?php while($c = $showComments->fetch()) { ?>
+                        <p>NAME : <?= $c['user_comment'] ?></p>
+                    <?php } ?>
+                    <form class="mx-3" method="POST">
+                        <p>
+                            <label for="messsage" class="form-label mb-4">Votre commentaire :</label>
+                            <textarea class="form-control" name="userComment" id="messsage" rows="5" placeholder="Hello World !"></textarea>
+                        </p>
+                        <p>
+                            <button type="submit" name="sendComment" class="btn btn-primary my-3">Poster</button>
+                        </p>
+                    </form>
                 </div>
-            </p>
-            <p>
-                <label for="messsage" class="form-label mb-4">Votre commentaire :</label>
-                <textarea class="form-control" id="messsage" rows="5" placeholder="Hello World !"></textarea>
-            </p>
-            <p>
-                <button type="submit" class="btn btn-primary my-3">Poster</button>
-            </p>
-        </form>
+                <?php } else
+                    echo '<p class="mx-3">Vous devez être connecté pour commenter ou voir les commentaires.<br>
+                    Inscrivrez-vous <a href="subscription.php">ici</a>.</p>'
+                ?>
+
 
             <!-- Pied-de-page de la modale -->
             <div class="modal-footer">
@@ -130,3 +162,5 @@
 
     require_once('src/footer.php');
 ?>
+
+

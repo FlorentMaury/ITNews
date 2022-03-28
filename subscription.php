@@ -13,9 +13,25 @@
         $password    = htmlspecialchars($_POST['password']);
         $passwordTwo = htmlspecialchars($_POST['passwordTwo']);
 
+        // Les mots de passe sont-ils identiques ?
         if($password != $passwordTwo) {
             header('location: subscription.php?error=1&message=Vos mots de passe ne sont pas identiques.');
             exit();
+        }
+
+        // Le pseudo est-il déjà utilisé ou trop long ?
+        $req = $bdd->prepare('SELECT COUNT(*) as numberName FROM user WHERE name = ?');
+        $req->execute([$name]);
+
+        while($nameVerification = $req->fetch()) {
+            if($nameVerification['numberName'] != 0) {
+                header('location: subscription.php?error=1&message=Votre pseudo est déjà utilisée.');
+                exit();
+            }
+            if(strlen($name) > 20) {
+                header('location: subscription.php?error=1&message=Votre pseudo est trop long.');
+                exit();
+            }
         }
 
         // L'adresse email est-elle correcte ?
@@ -64,10 +80,10 @@
         <form method="POST" action="/subscription.php">
 
             <?php if(isset($_GET['success'])) {
-                echo '<p>Inscription réalisée avec succès.</p>';
+                echo '<p class="mt-4 fw-bold text-success">Inscription réalisée avec succès !</p>';
             }
             else if(isset($_GET['error']) && !empty($_GET['message'])) {
-                echo '<p>'.htmlspecialchars($_GET['message']).'</p>';
+                echo '<p class="mt-4 fw-bold text-danger">'.htmlspecialchars($_GET['message']).'</p>';
             } ?>
 
                 <p class="form-floating m-2">

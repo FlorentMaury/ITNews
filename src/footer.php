@@ -1,12 +1,9 @@
     <div class="container">
 
         <hr class="text-primary">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center">
+        <footer class="d-flex flex-wrap m-5 justify-content-between align-items-center">
             <div class="col-md-4 d-flex align-items-center">
                 <span class="text-muted">© 2022 Florent Maury</span>
-                <button type="button" href="" class="btn m-5 btn-outline-primary me-2">
-                    <a class="text-decoration-none text-primary" href="/src/logout.php">Déconnexion</a>
-                </button>
             </div>
 
             <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">

@@ -6,6 +6,27 @@
 
     $editing = 0;
 
+    if(isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+        // L'image est trop lourde ?
+        if($_FILES['image']['size'] <= 3000000) {
+    
+            $informationsImage = pathinfo($_FILES['image']['name']);
+            $extensionImage    = $informationsImage['extension'];
+            $extensionsArray   = ['png', 'gif', 'jpg', 'jpeg'];
+    
+            if(in_array($extensionImage, $extensionsArray)) {
+    
+                $newImageName = time().rand().rand().'.'.$extensionImage;
+                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/'.$newImageName);
+                $send = true;
+    
+            }
+    
+        }
+    
+    }
+
     if(isset($_GET['edit']) AND !empty($_GET['edit'])) {
         $editing = 1;
         $edition_id = htmlspecialchars($_GET['edit']);
@@ -23,9 +44,9 @@
             $content  = htmlspecialchars($_POST['content']);
 
             if($editing == 0) {
-                
                 $send = $bdd->prepare('INSERT INTO article (title, subtitle, content, article_date) VALUES (?, ?, ?, NOW())');
                 $send->execute(array($title, $subtitle, $content));
+
                 $message = "Article posté !";
             } else {
                 $update = $bdd->prepare('UPDATE article SET title = ?, subtitle = ?, content = ?, date_edition =now() WHERE id = ?');
@@ -34,7 +55,7 @@
             }
 
         } else {
-            $message = "Tout les champs doivent être remplis.";
+            header('location: articleCreation.php?error=1&message=Tous les champs doivent être remplis.');
         }
     }
         
@@ -51,7 +72,7 @@
         <form method="POST" enctype="multipart/form-data">
 
             <?php if(isset($_GET['success'])) {
-                echo '<p>Inscription réalisée avec succès.</p>';
+                echo '<p>Article en ligne !</p>';
             }
             else if(isset($_GET['error']) && !empty($_GET['message'])) {
                 echo '<p>'.htmlspecialchars($_GET['message']).'</p>';
@@ -71,7 +92,7 @@
                 </p>
                 <p class="mx-5 my-2">
                     <label for="image" class="form-label">Illustration de l'article</label>
-                    <input class="form-control" type="file" id="image">
+                    <input class="form-control" type="file" name="image" id="image">
                 </p>
                 <button class="w-50 btn btn-lg btn-primary mt-5" type="submit">Poster</button>
             </form>
