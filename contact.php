@@ -3,6 +3,7 @@
     session_start();
 
     require_once('src/header.php');
+    
 ?>
 
     <!-- Formulaire de contact -->

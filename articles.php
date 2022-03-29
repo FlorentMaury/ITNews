@@ -54,7 +54,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#read<?= $x['id'] ?>">Lire</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment<?= $x['id'] ?>">Commenter</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment">Commenter</button>
                             </div>
                             <small class="text-muted pl-3"><?= $x['article_date'] ?></small>
                         </div>
@@ -129,12 +129,7 @@ while($y = $req->fetch()) {
 
 
 
-
-<?php
-$req = $bdd->query('SELECT * FROM remark');
-while($a = $req->fetch()) { 
-?>
-<div class="modal fade" id="comment<?= $a['article_id'] ?>" data-bs-backdrop="static">
+<div class="modal fade" id="comment" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -183,7 +178,6 @@ while($a = $req->fetch()) {
         </div>
     </div>
 </div> 
-<?php } ?>
 
     <!-- Footer -->
 
