@@ -37,7 +37,8 @@
 		while($user = $req->fetch()) {
 			if($password == $user['password']) {
 				$_SESSION['connect'] = 1;
-				$_SESSION['email'] = $user['email'];
+				$_SESSION['name'] = $user['name'];
+                $_SESSION['id']   = $user['id'];
 
 				// Connexion auto par cookie
 				if(isset($_POST['auto'])) {
@@ -68,8 +69,8 @@
             Bienvenue
             <?php
             	if(isset($_SESSION['connect'])) {
-                    require_once('src/connection.php');
-                        echo $_SESSION['email'];
+
+                    echo $_SESSION['name'];
                 }
             ?>
         </h1>
@@ -92,7 +93,7 @@
                 <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réél, n'importe quand, n'importe où</h1>
                 <p class="lead mb-5">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#subscription">S'inscrire</button>
+                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" ><a href="/subscription.php" class="text-secondary text-decoration-none">S'inscrire</a></button>
                         <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#signIn">Se connecter</button>
                     </div>
             </div>

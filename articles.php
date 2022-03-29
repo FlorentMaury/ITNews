@@ -4,23 +4,23 @@
 
     require_once('src/connection.php');
 
-    $articles = $bdd->query('SELECT * FROM article ORDER BY article_date DESC');
-    $content = $bdd->query('SELECT * FROM article ORDER BY id DESC');
-
     if(isset($_POST['sendComment'])) {
+
         if(!empty($_POST['userComment'])) {
+
             $comment = htmlspecialchars($_POST['userComment']);
-            $ins = $bdd->prepare('INSERT INTO comment (user_comment) VALUES (?)');
-            $ins->execute(array($comment));
+            $id      = htmlspecialchars($_SESSION['id']);
+            $ins     = $bdd->prepare('INSERT INTO remark (content, user_id) VALUES (?, ?)');
+            $ins->execute([$comment, $id]);
             header('location: articles.php?success=1');
+            exit();
+
         } else {
+            
             header('location: articles.php?error=1&message=Remplir avant d\'envoyer.');
             exit();
         }
     }
-
-    $showComments = $bdd->prepare('SELECT * FROM comment WHERE article_id = ?');
-    $showComments->execute(array(0));
 
     $master = $bdd->query('SELECT * FROM user WHERE id = 11');
 
@@ -40,7 +40,12 @@
         echo '<p mt-2 class="mt-4 fw-bold text-danger">'.htmlspecialchars($_GET['message']).'</p>';
     } ?>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-4">
-        <?php while($x = $articles->fetch()) { ?>
+
+        <?php
+        $req = $bdd->query('SELECT * FROM article ORDER BY article_date DESC');
+        while($x = $req->fetch()) { 
+        ?>
+
             <div class="col"> 
                 <div class="card shadow-sm">
                     <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
@@ -91,7 +96,11 @@
 
     <!-- Modales -->
     
-<?php while($y = $content->fetch()) { ?>
+<?php
+$req = $bdd->query('SELECT * FROM article ORDER BY id DESC');
+while($y = $req->fetch()) { 
+?>
+
     <div class="modal fade" id="read<?= $y['id'] ?>" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -131,8 +140,17 @@
             <?php
             	if(isset($_SESSION['connect'])) { ?>
                     <div class="modal-body">
-                    <?php while($c = $showComments->fetch()) { ?>
-                        <p>NAME : <?= $c['user_comment'] ?></p>
+
+                    <?php
+                    $req = $bdd->query('SELECT content, user_id, remark_date, name
+                                        FROM remark
+                                        INNER JOIN user
+                                        ON user.id = remark.user_id');
+                    while($c = $req->fetch()) { 
+                    ?>
+
+                        <p><span class="fw-bold"> <?= $c['name'] ?> </span> : <?= $c['content'] ?></p>
+                        <p class="blockquote-footer"><?= $c['remark_date'] ?></p>
                     <?php } ?>
                     <form class="mx-3" method="POST">
                         <p>
