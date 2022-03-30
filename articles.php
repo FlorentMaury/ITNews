@@ -34,7 +34,7 @@
 
 <div class="container">
     <?php if(isset($_GET['success'])) {
-        echo '<p class="mt-4 font-weight-bold text-success">Message posté !</p>';
+        echo '<p class="mt-4 font-weight-bold text-success">Article posté !</p>';
     }
     else if(isset($_GET['error']) && !empty($_GET['message'])) {
         echo '<p mt-2 class="mt-4 fw-bold text-danger">'.htmlspecialchars($_GET['message']).'</p>';
@@ -48,7 +48,7 @@
 
             <div class="col"> 
                 <div class="card shadow-sm">
-                    <img class="rounded" src="https://picsum.photos/419/225" alt="Image">
+                    <img class="rounded" src="public/assets/illustrations/<?= $x['id'] ?>.jpg" alt="Image de l'article">
                     <div class="card-body">
                         <p class="card-text"><?= $x['subtitle'] ?></p>
                         <div class="d-flex justify-content-between align-items-center">

@@ -11,8 +11,7 @@
         $editing = 1;
         $edition_id = htmlspecialchars($_GET['edit']);
         $edition   = $bdd->prepare('SELECT * FROM article WHERE id = ?');
-        $edition->execute(array($edition_id));
-
+        $edition->execute([$edition_id]);
         $edition = $edition->fetch();
     }
 
@@ -23,31 +22,38 @@
             $subtitle = htmlspecialchars($_POST['subtitle']);
             $content  = htmlspecialchars($_POST['content']);
 
-            if($_FILES['image']['size'] <= 3000000) {
-    
-                $informationsImage = pathinfo($_FILES['image']['name']);
-                $extensionImage    = $informationsImage['extension'];
-                $extensionsArray   = ['png', 'gif', 'jpg', 'jpeg'];
-        
-                if(in_array($extensionImage, $extensionsArray)) {
-        
-                    $newImageName = time().rand().rand().'.'.$extensionImage;
-                    move_uploaded_file($_FILES['image']['tmp_name'], 'public/assets/illustrations/'.$newImageName);
-                    $send = true;
-        
-                }
-            } 
-
             if($editing == 0) {
                 $send = $bdd->prepare('INSERT INTO article (title, subtitle, content, article_date) VALUES (?, ?, ?, NOW())');
-                $send->execute(array($title, $subtitle, $content));
+                $send->execute([$title, $subtitle, $content]);
                 $send = true;
+                $imageID = $bdd->lastInsertId();
 
-                $message = "Article posté !";
+                if($_FILES['image']['size'] <= 3000000) {
+    
+                    $informationsImage = pathinfo($_FILES['image']['name']);
+                    $extensionImage    = $informationsImage['extension'];
+                    $extensionsArray   = ['png', 'jpg', 'jpeg'];
+            
+                    if(in_array($extensionImage, $extensionsArray)) {
+            
+                        $newImageName = $imageID .'.'.$extensionImage;
+                        move_uploaded_file($_FILES['image']['tmp_name'], 'public/assets/illustrations/'.$newImageName);
+                        $send = true;
+            
+                    } else {
+                        header('location: articleCreation.php?error=1&Votre image doit être un PNG, JPG ou un JPEG.');
+                        exit();
+                    }
+                } 
+
+
+                header('location: articles.php?success=1');
+                exit();
             } else {
                 $update = $bdd->prepare('UPDATE article SET title = ?, subtitle = ?, content = ?, date_edition =now() WHERE id = ?');
-                $update->execute(array($title, $subtitle, $content, $edition_id));
-                $message = "Article modifié !";
+                $update->execute([$title, $subtitle, $content, $edition_id]);
+                header('location: articles.php?error=1&message=Article modifié !');
+                exit();
             }
 
         } else {
@@ -60,7 +66,7 @@
     
 ?>
 
-        <!-- Formulaire de contact -->
+        <!-- Formulaire de création article -->
 
     <div class="px-4 pt-5 my-5 text-center">
         <h1 class="display-4 fw-bold text-primary">Gestion des articles</h1>
