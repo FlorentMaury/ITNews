@@ -45,8 +45,6 @@
                         exit();
                     }
                 } 
-
-
                 header('location: articles.php?success=1');
                 exit();
             } else {

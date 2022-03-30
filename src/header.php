@@ -1,3 +1,8 @@
+<?php
+      $page = $_SERVER['REQUEST_URI'];
+      $page = str_replace("/", "",$page);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,9 +29,15 @@
 
                 <!-- NavBar -->
                 <ul class="nav col-12 col-lg-auto me-lg-auto mx-5 justify-content-center">
-                    <li><a href="index.php" class="nav-link px-2 text-primary">Accueil</a></li>
-                    <li><a href="articles.php" class="nav-link px-2 text-white">Articles</a></li>
-                    <li><a href="contact.php" class="nav-link px-2 text-white">Contact</a></li>
+                    <li class="nav-item">
+                        <a href="index.php" class="nav-link px-2 text-primary">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="articles.php" class="nav-link px-2 text-primary">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.php" class="nav-link px-2 text-primary">Contact</a>
+                    </li>
                 </ul>
 
                 <!-- Inscriptions et lancement des modales -->

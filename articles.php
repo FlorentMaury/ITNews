@@ -8,21 +8,20 @@
 
         if(!empty($_POST['userComment'])) {
 
-            $comment = htmlspecialchars($_POST['userComment']);
-            $id      = htmlspecialchars($_SESSION['id']);
-            $ins     = $bdd->prepare('INSERT INTO remark (content, user_id) VALUES (?, ?)');
-            $ins->execute([$comment, $id]);
-            header('location: articles.php?success=1');
+            $comment   = htmlspecialchars($_POST['userComment']);
+            $id        = htmlspecialchars($_SESSION['id']);
+            $articleID = htmlspecialchars($_GET['id']);
+            $ins       = $bdd->prepare('INSERT INTO remark (content, user_id, article_id) VALUES (?, ?, ?)');
+            $ins->execute([$comment, $id, $articleID]);
+            header('location: articles.php?success2=1');
             exit();
 
         } else {
             
-            header('location: articles.php?error=1&message=Remplir avant d\'envoyer.');
+            header('location: articles.php?error=1&message=Completez votre commentaire avant de l\'envoyer.');
             exit();
         }
     }
-
-    $master = $bdd->query('SELECT * FROM user WHERE id = 11');
 
     require_once('src/header.php');
 
@@ -35,6 +34,9 @@
 <div class="container">
     <?php if(isset($_GET['success'])) {
         echo '<p class="mt-4 font-weight-bold text-success">Article posté !</p>';
+    }
+    if(isset($_GET['success2'])) {
+        echo '<p class="mt-4 font-weight-bold text-success">Commentaire posté !</p>';
     }
     else if(isset($_GET['error']) && !empty($_GET['message'])) {
         echo '<p mt-2 class="mt-4 fw-bold text-danger">'.htmlspecialchars($_GET['message']).'</p>';
@@ -54,7 +56,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#read<?= $x['id'] ?>">Lire</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment">Commenter</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#comment<?= $x['id'] ?>">Commenter</button>
                             </div>
                             <small class="text-muted pl-3"><?= $x['article_date'] ?></small>
                         </div>
@@ -129,7 +131,15 @@ while($y = $req->fetch()) {
 
 
 
-<div class="modal fade" id="comment" data-bs-backdrop="static">
+<?php
+$req = $bdd->query('SELECT article_id, article.id 
+                    FROM remark
+                    INNER JOIN article
+                    ON article.id = article_id');
+while($w = $req->fetch()) { 
+?>
+
+<div class="modal fade" id="comment<?= $w['article_id'] ?>" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -145,16 +155,15 @@ while($y = $req->fetch()) {
                     <div class="modal-body">
 
                     <?php
-                    $req = $bdd->query('SELECT content, user_id, remark_date, name
-                                        FROM remark
-                                        INNER JOIN user
-                                        ON user.id = remark.user_id');
-                    while($c = $req->fetch()) { 
+                    $req = $bdd->query('SELECT article_id, content, remark_date, name
+                    FROM remark, user');
+                    while($b = $req->fetch()) { 
                     ?>
 
-                        <p><span class="fw-bold"> <?= $c['name'] ?> </span> : <?= $c['content'] ?></p>
-                        <p class="blockquote-footer"><?= $c['remark_date'] ?></p>
+                        <p><span class="fw-bold"> <?= $b['name'] ?> </span> : <?= $b['content'] ?></p>
+                        <p class="blockquote-footer"><?= $b['remark_date'] ?></p>
                     <?php } ?>
+
                     <form class="mx-3" method="POST">
                         <p>
                             <label for="messsage" class="form-label mb-4">Votre commentaire :</label>
@@ -165,7 +174,7 @@ while($y = $req->fetch()) {
                         </p>
                     </form>
                 </div>
-                <?php } else
+                <?php } else 
                     echo '<p class="mx-3">Vous devez être connecté pour commenter ou voir les commentaires.<br>
                     Inscrivrez-vous <a href="subscription.php">ici</a>.</p>'
                 ?>
@@ -178,6 +187,7 @@ while($y = $req->fetch()) {
         </div>
     </div>
 </div> 
+<?php } ?>
 
     <!-- Footer -->
 
