@@ -1,8 +1,3 @@
-<?php
-      $page = $_SERVER['REQUEST_URI'];
-      $page = str_replace("/", "",$page);
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>

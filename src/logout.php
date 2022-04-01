@@ -1,5 +1,7 @@
 <?php
     
+    // SUppression de la session et des cookies.
+
     session_start();   // Initialiser
     session_unset();   // Désactiver
     session_destroy(); // Détruire

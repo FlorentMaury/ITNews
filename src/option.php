@@ -1,5 +1,7 @@
 <?php
 
+    // Mise en place de la session et des cookies.
+
     session_start();
 
     if(isset($_COOKIE['auth']) && !isset($_SESSION['connect'])) {

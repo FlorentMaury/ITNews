@@ -174,9 +174,10 @@ while($w = $req->fetch()) {
                         </p>
                     </form>
                 </div>
-                <?php } else 
+                <?php } else {
                     echo '<p class="mx-3">Vous devez être connecté pour commenter ou voir les commentaires.<br>
-                    Inscrivrez-vous <a href="subscription.php">ici</a>.</p>'
+                    Inscrivrez-vous <a href="subscription.php">ici</a>.</p>';
+                }
                 ?>
 
 

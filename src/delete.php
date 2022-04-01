@@ -2,6 +2,8 @@
 
     require_once('connection.php');
 
+    // Suppression des articles pour l'administrateur uniquement.
+
     if(isset($_GET['id']) AND !empty($_GET['id'])) {
         $erease_id = htmlspecialchars($_GET['id']);
         $delete = $bdd->prepare('DELETE FROM article WHERE id = ?');

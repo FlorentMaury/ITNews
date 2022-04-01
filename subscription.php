@@ -4,10 +4,10 @@
 
     if(!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['passwordTwo'])) {
 
-        // Connexion à la bdd
+        // Connexion à la base de données.
         require_once('src/connection.php');
 
-        // Variables
+        // Variables.
         $name        = htmlspecialchars($_POST['name']);
         $email       = htmlspecialchars($_POST['email']);
         $password    = htmlspecialchars($_POST['password']);
@@ -51,14 +51,14 @@
             }
         }
 
-        // Chiffrement du mot de passe
+        // Chiffrement du mot de passe.
         $password = "aq1".sha1($password ."123")."25";
 
-        // Secret
+        // Secret.
         $secret = sha1($email).time();
         $secret = sha1($secret).time();
 
-        // Ajouter un utilisateur
+        // Ajouter un utilisateur.
         $req = $bdd->prepare('INSERT INTO user(name, email, password, secret) VALUES(?, ?, ?, ?)');
         $req->execute([$name, $email, $password, $secret]);
 

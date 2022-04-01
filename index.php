@@ -3,10 +3,10 @@
 	session_start();
 
 	if(!empty($_POST['email']) && !empty($_POST['password'])) {
-		// Connexion à la base de donnée
+		// Connexion à la base de donnée.
 		require_once('src/connection.php');
 
-		// Variables
+		// Sécurisation des variables.
 		$email     = htmlspecialchars($_POST['email']);
 		$password  = htmlspecialchars($_POST['password']);
 
@@ -16,7 +16,7 @@
 			exit();
 		}
 
-		// Chiffrement du mot de passe
+		// Chiffrement du mot de passe.
 		$password = "aq1".sha1($password ."123")."25";
 
 		// L'adresse email est-elle bien utilisée ?
@@ -30,7 +30,7 @@
 			}
 		}
 
-		// Connexion
+		// Connexion.
 		$req = $bdd->prepare('SELECT * FROM user WHERE email = ?');
 		$req->execute([$email]);
 
@@ -40,7 +40,7 @@
 				$_SESSION['name'] = $user['name'];
                 $_SESSION['id']   = $user['id'];
 
-				// Connexion auto par cookie
+				// Connexion auto par cookie.
 				if(isset($_POST['auto'])) {
 					setcookie('auth', $user['secret'], time() + 365*24*3600, '/', null, false, true);
 				} 
@@ -57,14 +57,14 @@
 ?>
   
         <!-- Header -->
-
     <?php
         require_once('src/header.php');
     ?>
 
         <!-- Boîte de présentation 1 -->
-
     <div class="px-4 pt-5 my-5 text-center">
+
+        <!-- Message de bienvenue personnalisé (si l'utilisateur est connecté). -->
         <h1 class="display-4 fw-bold text-primary">
             Bienvenue
             <?php
@@ -74,6 +74,8 @@
                 }
             ?>
         </h1>
+
+        <!-- Petit brief de description du site -->
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
@@ -86,7 +88,7 @@
 
         <!-- Boîte de présentation 2 -->
 
-
+    <!-- Description des avantages à être connecté et capture d'écran d'extrait du site. -->
     <div class="container my-5">
         <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
@@ -105,8 +107,6 @@
 
 
         <!-- Boîte de présentation 3 -->
-
-
     <div class="bg-secondary text-primary px-4 py-5 text-center">
         <div class="py-5">
             <h1 class="display-5 fw-bold text-white">Dark mode hero</h1>
