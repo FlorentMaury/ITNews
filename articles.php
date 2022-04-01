@@ -63,7 +63,7 @@
                     </div>
 
                     <?php if(isset($_SESSION['connect'])) { ?>
-                        <?php if($_SESSION['id'] == 11) { ?>
+                        <?php if($_SESSION['id'] == 1) { ?>
                             <div class="card-footer d-flex justify-content-between">
                                 <button class="btn btn-sm btn-primary" href="/articleCreation.php" type="submit">
                                     <a href="/articleCreation.php?edit=<?= $x['id'] ?>" class="text-decoration-none text-secondary">
@@ -132,14 +132,11 @@ while($y = $req->fetch()) {
 
 
 <?php
-$req = $bdd->query('SELECT article_id, article.id 
-                    FROM remark
-                    INNER JOIN article
-                    ON article.id = article_id');
+$req = $bdd->query('SELECT * FROM article ORDER BY id DESC');
 while($w = $req->fetch()) { 
 ?>
 
-<div class="modal fade" id="comment<?= $w['article_id'] ?>" data-bs-backdrop="static">
+<div class="modal fade" id="comment<?= $w['id'] ?>" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
