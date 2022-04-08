@@ -116,7 +116,7 @@
         <div class="py-5">
             <h1 class="display-5 fw-bold text-white">Nous sommes disponibles ou que vous soyez</h1>
             <div class="col-lg-6 mx-auto">
-                <p class="fs-5 mb-4">Téléchargez notre application que vous soyez sur Android ou bien Apple, notre application est mobile. Comme vous.</p>
+                <p class="fs-5 mb-4">Téléchargez notre application que vous soyez sur Android ou bien iOS, notre application est mobile. Comme vous.</p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-center">
                         <img src="/public/assets/illustrations/appstore.svg" width="220px" alt="">
                     </div>
