@@ -93,7 +93,7 @@
         <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
             <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
             <?php if(isset($_SESSION['connect'])) { ?>
-                <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réél, n'importe quand, n'importe où</h1>
+                <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réel, n'importe quand, n'importe où</h1>
                 <p class="lead mb-5">Grâce à votre compte sur ITNews, vous pouvez être assurés de toujours être au courant des dernières actualités du numérique. Nos équipes travaillent sans relâche pour vous livrer la moindre information avant tout le monde. Que le monde mystérieux du Web soit votre métier, ou juste votre passion.</p>
             <?php } else { ?>
                 <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réél, n'importe quand, n'importe où</h1>
