@@ -96,7 +96,7 @@
                 <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réel, n'importe quand, n'importe où</h1>
                 <p class="lead mb-5">Grâce à votre compte sur ITNews, vous pouvez être assurés de toujours être au courant des dernières actualités du numérique. Nos équipes travaillent sans relâche pour vous livrer la moindre information avant tout le monde. Que le monde mystérieux du Web soit votre métier, ou juste votre passion.</p>
             <?php } else { ?>
-                <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réél, n'importe quand, n'importe où</h1>
+                <h1 class="display-4 fw-bold lh-1 mb-5">L'actualité en temps réel, n'importe quand, n'importe où</h1>
                 <p class="lead mb-5">Créez un compte sur ITNews, vous pourrez ainsi être assurés de toujours être au courant des dernières actualités du numérique. Nos équipes travailleront sans relâche pour vous livrer la moindre information avant tout le monde. Que le monde mystérieux du Web soit votre métier, ou juste votre passion.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
                         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" ><a href="/subscription.php" class="text-secondary text-decoration-none">S'inscrire</a></button>
